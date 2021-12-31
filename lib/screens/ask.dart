@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:question_and_answer/components/appbar.dart';
-import 'package:question_and_answer/components/footer.dart';
+import 'package:question_and_answer/components/QuestionRequest.dart';
+import '../components/appbar.dart';
+import '../components/footer.dart';
+import '../components/ButtonComponent.dart';
+import '../components/text.dart';
 
 class Ask extends StatefulWidget {
   static String id = "ask";
-
   @override
   _AskState createState() => _AskState();
 }
@@ -16,57 +18,82 @@ class _AskState extends State<Ask> {
     return SafeArea(
       child: Scaffold(
         body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Header(text: "Ask", isNotifications: false),
-            Column(
-              children: [
+            SizedBox(
+              height: 10,
+            ),
             Padding(
-              padding: const EdgeInsets.only(top: 30.0, left: 25.0,),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.baseline,
-                textBaseline: TextBaseline.ideographic,
+              padding: const EdgeInsets.only(
+                  top: 20.0, bottom: 20.0, left: 20.0, right: 30.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Q.", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 20.0, color: Colors.black54),),
-                  SizedBox(
-                    width: 20.0,
+                  TextWidget(
+                    text:
+                        "Important: Please search the question before asking, so it saves yours and other's time.",
+                    fontSize: 16.0,
+                    colorType: Colors.blue,
+                    fontWeight: FontWeight.w400,
                   ),
-                  Container(
-                    width: 330.0,
-                    child: TextField(
-                      maxLines: 10,
-                      autocorrect: true,
-                      decoration: InputDecoration(
-                        hintText: 'Ask your question here...',
-                        hintStyle: TextStyle(color: Colors.grey),
-                        filled: true,
-                        fillColor: Colors.white,
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                          borderSide: BorderSide(color: Colors.black12),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(color: Colors.black12),
-                        ),
-                      ),
-                    ),
+                  SizedBox(
+                    height: 100,
+                  ),
+                  TextWidget(
+                    text:
+                        "Request your question here: ",
+                    fontSize: 16.0,
+                    colorType: Colors.black,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  QuestionRequest(
+                    height: 120.0,
+                    maxLines: 7,
+                    text: 'Type your question here...',
+                  ),
+                  SizedBox(
+                    height: 30.0,
+                  ),
+                  TextWidget(
+                    text:
+                        "Request any specific person to answer your question: ",
+                    fontSize: 16.0,
+                    colorType: Colors.black,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  QuestionRequest(
+                    height: 39.0,
+                    maxLines: 1,
+                    text: 'Type name...',
+                  ),
+                  SizedBox(
+                    height: 100.0,
+                  ),
+                  TextWidget(
+                    text:
+                        "Note: Even though you can request a specific person to answer, still the question will be public and anyone can answer.",
+                    fontSize: 16.0,
+                    colorType: Colors.blue,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  SizedBox(
+                    height: 30.0,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ButtonComponent(txt: "Ask", color: Color(0xFFF5F6FD)),
+                    ],
                   ),
                 ],
               ),
-            ),
-            SizedBox(
-              height: 20.0,
-            ),
-            Row(
-              children: [
-                Text("To:"),
-                SizedBox(
-                  width: 20.0,
-                ),
-              ],
-            )
-              ],
             ),
             Expanded(child: Container()),
             Footer(),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:question_and_answer/components/icon_widget.dart';
 import '../screens/ask.dart';
 import '../screens/home.dart';
+import '../screens/profile.dart';
 
 class Footer extends StatelessWidget {
 
@@ -20,6 +21,7 @@ class Footer extends StatelessWidget {
           IconWidget(icons: Icons.add_circle_outline, onPress: (){ Navigator.pushNamed(context, Ask.id); },),
           IconWidget(icons: Icons.notes, onPress: (){ Navigator.pushNamed(context, Ask.id); },),
           IconWidget(icons: Icons.notifications, onPress: (){ Navigator.pushNamed(context, Ask.id); },),
+          IconWidget(icons: Icons.account_circle, onPress: (){ Navigator.pushNamed(context, Profile.id); },),
         ],
       ),
     );

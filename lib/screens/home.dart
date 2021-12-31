@@ -15,10 +15,9 @@ class _HomeState extends State<Home> {
     return SafeArea(
       child: Scaffold(
         body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Header(text: "Home", isNotifications: false),
-            Expanded(child: Container()),
             Footer(),
           ],
         ),

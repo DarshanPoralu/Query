@@ -20,12 +20,18 @@ class Header extends StatelessWidget {
           children: [
             Row(
               children: [
-                Container(
-                  height: 30.0,
-                  width: 30.0,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
+                SizedBox(
+                  height: 30,
+                  width: 30,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    clipBehavior: Clip.none,
+                    children: [
+                      CircleAvatar(
+                        backgroundImage: AssetImage("assets/images/Profile Image.png"),
+                        backgroundColor: Colors.white,
+                      ),
+                    ],
                   ),
                 ),
                 SizedBox(width: 15.0,),

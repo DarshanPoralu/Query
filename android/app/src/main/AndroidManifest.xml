@@ -1,6 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.question_and_answer">
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="mailto" />
+        </intent>
+    </queries>
    <application
+        android:name="androidx.multidex.MultiDexApplication">
         android:label="question_and_answer"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -39,3 +46,4 @@
             android:value="2" />
     </application>
 </manifest>
+

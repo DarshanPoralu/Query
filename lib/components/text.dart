@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
+import 'package:question_and_answer/components/size_config.dart';
 
 class TextWidget extends StatelessWidget {
-  TextWidget({required this.text, required this.fontWeight, required this.fontSize, required this.colorType});
+  TextWidget({required this.text, required this.fontWeight, required this.fontSize, required this.colorType, required this.textAlign});
   final String text;
   final FontWeight fontWeight;
   final double fontSize;
   final Color colorType;
+  final TextAlign textAlign;
 
   @override
   Widget build(BuildContext context) {
@@ -13,10 +15,10 @@ class TextWidget extends StatelessWidget {
       text,
       style: TextStyle(
         fontWeight: fontWeight,
-        fontSize: fontSize,
+        fontSize: getProportionateScreenWidth(fontSize),
         color: colorType,
       ),
-      textAlign: TextAlign.justify,
+      textAlign: textAlign,
     );
   }
 }

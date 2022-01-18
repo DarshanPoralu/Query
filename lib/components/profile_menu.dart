@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:question_and_answer/components/size_config.dart';
 
 
 class ProfileMenu extends StatelessWidget {
@@ -12,7 +12,7 @@ class ProfileMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20), vertical: getProportionateScreenHeight(10)),
       child: TextButton(
         style: TextButton.styleFrom(
           primary: Colors.black,

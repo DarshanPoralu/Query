@@ -1,12 +1,25 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'screens/home.dart';
-import 'screens/ask.dart';
-import 'screens/profile.dart';
-import 'screens/my_account.dart';
-import 'screens/settings.dart';
-import 'screens/helpCenter.dart';
+import 'package:question_and_answer/screens/authenticate/login/forgot_password.dart';
+import 'package:question_and_answer/screens/authenticate/login/login.dart';
+import 'package:question_and_answer/screens/authenticate/register/register.dart';
+import 'package:question_and_answer/screens/authenticate/welcome/welcome.dart';
+import 'package:question_and_answer/screens/home/add/add.dart';
+import 'package:question_and_answer/screens/home/home/home.dart';
+import 'package:question_and_answer/screens/home/profile/help/helpCenter.dart';
+import 'package:question_and_answer/screens/home/profile/my_account/my_account.dart';
+import 'package:question_and_answer/screens/home/profile/profile.dart';
+import 'package:question_and_answer/screens/home/profile/settings/settings.dart';
+import 'package:question_and_answer/screens/services/auth.dart';
+import 'package:question_and_answer/screens/start.dart';
+import 'package:question_and_answer/screens/wrapper.dart';
+import 'package:provider/provider.dart';
+import 'components/search.dart';
+import 'models/user_model/user_model.dart';
 
-void main() {
+Future<void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -14,16 +27,26 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: Home.id,
-      routes: {
-        Home.id: (context) => Home(),
-        Ask.id: (context) => Ask(),
-        Profile.id: (context) => Profile(),
-        MyAccount.id: (context) => MyAccount(),
-        Setting.id: (context) => Setting(),
-        Contact.id: (context) => Contact(),
-      },
+    return StreamProvider<UserModel?>.value(
+      value: AuthService().user,
+      initialData: null,
+      child: MaterialApp(
+         home: Wrapper(),
+        routes: {
+          Welcome.id: (context) => Welcome(),
+          Login.id: (context) => Login(),
+          Register.id: (context) => Register(),
+          ForgotPassword.id: (context) => ForgotPassword(),
+          Home.id: (context) => Home(),
+          Ask.id: (context) => Ask(),
+          Contact.id: (context) => Contact(),
+          MyAccount.id: (context) => MyAccount(),
+          Profile.id: (context) => Profile(),
+          Setting.id: (context) => Setting(),
+          Start.id: (context) => Start(),
+          Search.id: (context) => Search(),
+        },
+      ),
     );
   }
 }

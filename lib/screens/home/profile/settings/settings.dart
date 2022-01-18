@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../components/appbar.dart';
+import 'package:question_and_answer/components/header2.dart';
+import 'package:question_and_answer/components/size_config.dart';
 import 'package:list_tile_switch/list_tile_switch.dart';
-import '../components/text.dart';
+import '../../../../components/text.dart';
 
 class Setting extends StatefulWidget {
   static String id = "setting";
@@ -21,9 +21,9 @@ class _SettingState extends State<Setting> {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Header(text: "Settings", isNotifications: true),
+            Header2(text: "Settings"),
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: EdgeInsets.only(left: getProportionateScreenWidth(20), right: getProportionateScreenWidth(20), top: getProportionateScreenHeight(20)),
               child: Column(
                 children: [
                   Transform.scale(
@@ -43,7 +43,7 @@ class _SettingState extends State<Setting> {
                         "Notifications",
                         fontSize: 16.0,
                         colorType: Colors.black,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w600, textAlign: TextAlign.left,
                       ),
                     ),
                   ),

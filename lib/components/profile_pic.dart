@@ -1,7 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:question_and_answer/components/circle_image.dart';
 
 class ProfilePic extends StatelessWidget {
+
+  ProfilePic({required this.onPress});
+
+  final void Function() onPress;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -11,9 +16,7 @@ class ProfilePic extends StatelessWidget {
         fit: StackFit.expand,
         clipBehavior: Clip.none,
         children: [
-          CircleAvatar(
-            backgroundImage: AssetImage("assets/images/Profile Image.png"),
-          ),
+          CircleImage(),
           Positioned(
             right: -16,
             bottom: 0,
@@ -27,9 +30,8 @@ class ProfilePic extends StatelessWidget {
                     side: BorderSide(color: Colors.white),
                   ),
                   primary: Colors.white,
-                  backgroundColor: Color(0xFFF5F6F9),
                 ),
-                onPressed: () {},
+                onPressed: onPress,
                 child: Icon(
                   Icons.camera_enhance,
                 ),

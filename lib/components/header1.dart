@@ -1,36 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:question_and_answer/components/circle_image.dart';
 import 'package:question_and_answer/components/icon_widget.dart';
+import 'package:question_and_answer/components/search.dart';
+import 'package:question_and_answer/components/size_config.dart';
 
-class Header extends StatelessWidget {
-  Header({required this.text, required this.isNotifications});
-
+class Header1 extends StatelessWidget {
+  Header1({required this.text, required this.isSearch});
+  final bool isSearch;
   final String text;
-  final bool isNotifications;
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50.0,
+      height: getProportionateScreenHeight(50),
       decoration: BoxDecoration(
         color: Color(0xff0558bb),
       ),
       child: Padding(
-        padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+        padding: EdgeInsets.only(left: getProportionateScreenWidth(20), right: getProportionateScreenWidth(20)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
               children: [
                 SizedBox(
-                  height: 30,
-                  width: 30,
+                  height: getProportionateScreenHeight(30),
+                  width: getProportionateScreenWidth(30),
                   child: Stack(
                     fit: StackFit.expand,
                     clipBehavior: Clip.none,
                     children: [
-                      CircleAvatar(
-                        backgroundImage: AssetImage("assets/images/Profile Image.png"),
-                        backgroundColor: Colors.white,
-                      ),
+                      CircleImage(),
                     ],
                   ),
                 ),
@@ -45,7 +44,9 @@ class Header extends StatelessWidget {
                 ),
               ],
             ),
-            IconWidget(icons: Icons.search, onPress: (){},),
+            isSearch ? IconWidget(icons: Icons.search, onPress: (){
+             Navigator.pushNamed(context, Search.id);
+            },) : SizedBox(width: 0, height: 0,),
           ],
         ),
       ),

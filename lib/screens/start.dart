@@ -1,6 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:question_and_answer/components/circle_image.dart';
 import 'package:question_and_answer/components/constants.dart';
 import 'package:question_and_answer/components/header1.dart';
+import 'package:question_and_answer/components/text.dart';
 import 'package:question_and_answer/screens/home/profile/profile.dart';
 import 'home/answer/answer.dart';
 import 'home/add/add.dart';
@@ -14,6 +18,9 @@ class Start extends StatefulWidget {
 }
 
 class _StartState extends State<Start> {
+
+  String? url;
+  bool load = true;
   int _currentIndex = 0;
   List _screens = [Home(),
     Ask(),
@@ -30,18 +37,43 @@ class _StartState extends State<Start> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    getUrl();
+  }
+
+  Future getUrl() async{
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    final FirebaseStorage storage = FirebaseStorage.instance;
+    String fileName = _auth.currentUser!.uid;
+    url = await storage.ref('test/$fileName').getDownloadURL();
+    setState(() {
+      load = false;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Column(
+        body: !load ? Column(
           children: [
             (_currentIndex == 3 || _currentIndex == 4) ? Header1(
-              text: _titles[_currentIndex], isSearch: false,) : Header1(
-              text: _titles[_currentIndex], isSearch: true,),
+              text: _titles[_currentIndex], isSearch: false, image: CircleImage(url: url,),) : Header1(
+              text: _titles[_currentIndex], isSearch: true, image: CircleImage(url: url,),),
             _screens[_currentIndex],
           ],
+        ) : Container(
+          decoration: BoxDecoration(color: Colors.white),
+          child: Center(child: TextWidget(
+            text: "QUERY",
+            fontWeight: FontWeight.bold,
+            fontSize: 40,
+            colorType: kPrimaryColor,
+            textAlign: TextAlign.left,
+          ),),
         ),
-        bottomNavigationBar: BottomNavigationBar(
+        bottomNavigationBar: !load ? BottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: _updateIndex,
           selectedItemColor: kPrimaryColor,
@@ -69,8 +101,17 @@ class _StartState extends State<Start> {
               label: _titles[4],
             ),
           ],
-        ),
-      ),
+        ) : Container(
+      decoration: BoxDecoration(color: Colors.white),
+      child: Center(child: TextWidget(
+        text: "QUERY",
+        fontWeight: FontWeight.bold,
+        fontSize: 40,
+        colorType: kPrimaryColor,
+        textAlign: TextAlign.left,
+      ),),
+    ),
+      )
     );
   }
 }

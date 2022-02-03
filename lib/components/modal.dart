@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:question_and_answer/components/ButtonComponent.dart';
@@ -10,17 +11,21 @@ import 'package:question_and_answer/models/question_model/database.dart';
 import 'package:question_and_answer/models/user_model/database.dart';
 
 class Modal extends StatefulWidget {
-  Modal({required this.question, required this.qid});
+  Modal({required this.question, required this.qid, required this.mainA, required this.userId});
   final String qid;
   final String question;
+  final bool mainA;
+  final String userId;
 
   @override
   State<Modal> createState() => _ModalState();
 }
 
 class _ModalState extends State<Modal> {
+
   TextEditingController controller = TextEditingController();
   String answer = "";
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -60,11 +65,24 @@ class _ModalState extends State<Modal> {
                     final FirebaseAuth _auth = FirebaseAuth.instance;
                     String uid = _auth.currentUser!.uid;
                     String aid =
-                        await answerService.insertAnswerData(answer, widget.qid, uid);
+                        await answerService.insertAnswerData(answer, widget.qid, uid, widget.mainA);
                     var userService = DatabaseUserService();
                     await userService.updateUserData(aid, "aid", "countAid");
                     var questionService = DatabaseQuestionService();
                     await questionService.updateQuestionData(widget.qid, aid);
+                    bool check = false;
+                    await FirebaseFirestore.instance
+                        .collection("users")
+                        .doc(uid)
+                        .get()
+                        .then((value) {
+                          check = value.data()!['recQid'].containsKey(widget.qid);
+                    });
+                    if(check){
+                      var userDatabase = DatabaseUserService();
+                      await userDatabase.updateRequestQuestionData(
+                          widget.userId, uid, widget.qid, 1);
+                    }
                     controller.clear();
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         behavior: SnackBarBehavior.floating,

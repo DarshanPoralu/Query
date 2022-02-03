@@ -10,10 +10,11 @@ import 'package:question_and_answer/components/size_config.dart';
 import 'package:question_and_answer/screens/authenticate/components/build_form_field.dart';
 import 'package:question_and_answer/screens/authenticate/components/form_error.dart';
 import 'package:question_and_answer/screens/authenticate/components/keyboard.dart';
-import 'package:question_and_answer/screens/authenticate/login/login.dart';
 import 'package:question_and_answer/screens/authenticate/register/drop_down_widget.dart';
 import 'package:question_and_answer/screens/services/auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+
+import '../../start.dart';
 
 class SignUpForm extends StatefulWidget {
   @override
@@ -26,10 +27,10 @@ class _SignUpFormState extends State<SignUpForm> {
   String? email;
   String? password;
   String? conformPassword;
-  String? url;
   String? filePath;
   String? fileName;
   FilePickerResult? image;
+  File? fileType;
   bool remember = false;
   final List<String?> errors = [];
   final List<String> designationRoles = [
@@ -67,9 +68,14 @@ class _SignUpFormState extends State<SignUpForm> {
       key: _formKey,
       child: Column(
         children: [
-          ProfilePic(onPress: () async {
-            await getImage();
-          }),
+          ProfilePic(
+            onPress: () async {
+              await getImage();
+            },
+            image: image != null ? CircleAvatar(backgroundImage: FileImage(fileType!),) : CircleAvatar(
+              backgroundImage: AssetImage("assets/images/profile.jpg"),
+            )
+          ),
           SizedBox(height: getProportionateScreenHeight(30)),
           BuildFormField(
             obscure: false,
@@ -219,9 +225,13 @@ class _SignUpFormState extends State<SignUpForm> {
                 if (result == null) {
                   addError(error: "Enter a valid email");
                 } else {
-                  Navigator.pushNamed(context, Login.id);
+                  await uploadImage();
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      behavior: SnackBarBehavior.floating,
+                      backgroundColor: kPrimaryColor,
+                      content: Text('Account created')));
+                  Navigator.pushNamed(context, Start.id);
                 }
-                await uploadImage();
               }
             },
             buttonWidth: 350,
@@ -249,16 +259,18 @@ class _SignUpFormState extends State<SignUpForm> {
             allowedExtensions: ['png', 'jpg']);
         setState(() {
           image = result;
+          filePath = image!.files.single.path;
+          fileType = File(filePath!);
         });
         if (image == null) {
           ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('No file sile selected')));
+              const SnackBar(content: Text('No file selected')));
         }
       }
     }
   }
 
-  Future<void> uploadImage() async {
+  uploadImage() async {
     if (image != null) {
       final FirebaseAuth _auth = FirebaseAuth.instance;
       fileName = _auth.currentUser!.uid;
@@ -266,10 +278,6 @@ class _SignUpFormState extends State<SignUpForm> {
       final FirebaseStorage storage = FirebaseStorage.instance;
       File file = File(filePath!);
       await storage.ref('test/$fileName').putFile(file);
-      var downloadUrl = await storage.ref('test/$fileName').getDownloadURL();
-      setState(() {
-        url = downloadUrl;
-      });
     }
   }
 }

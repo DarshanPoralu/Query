@@ -3,9 +3,10 @@ import 'package:question_and_answer/components/circle_image.dart';
 
 class ProfilePic extends StatelessWidget {
 
-  ProfilePic({required this.onPress});
+  ProfilePic({required this.onPress, required this.image});
 
   final void Function() onPress;
+  final CircleAvatar image;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class ProfilePic extends StatelessWidget {
         fit: StackFit.expand,
         clipBehavior: Clip.none,
         children: [
-          CircleImage(),
+          image,
           Positioned(
             right: -16,
             bottom: 0,

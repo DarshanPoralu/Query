@@ -15,7 +15,7 @@ class AnswerModel {
       aid: map['aid'],
       qid: map['qid'],
       countSub: map['countSub'],
-      subQid: map['subQid'],
+      subQid: map['subQid'].cast<String>(),
       mainA: map['mainA'],
       answered: map['answered'],
     );

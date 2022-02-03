@@ -6,17 +6,19 @@ class DropDownWidget extends StatelessWidget {
       {required this.hintText,
       required this.validate,
       required this.designationRoles,
-      required this.onChange, required this.label});
+      required this.onChange, required this.label, this.value});
 
   final String hintText;
   final String label;
   final String? Function(String?) validate;
   final List<String> designationRoles;
   final void Function(String?) onChange;
+  final String? value;
 
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField2(
+      value: value,
       decoration: InputDecoration(
         labelText: label,
         isDense: true,
@@ -53,8 +55,7 @@ class DropDownWidget extends StatelessWidget {
               ))
           .toList(),
       validator: validate,
-      onChanged: (value) {},
-      onSaved: onChange,
+      onChanged: onChange,
     );
   }
 }

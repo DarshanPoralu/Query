@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:question_and_answer/components/header2.dart';
 import 'package:question_and_answer/components/size_config.dart';
 import 'package:list_tile_switch/list_tile_switch.dart';
+import 'package:question_and_answer/models/user_model/database.dart';
 import '../../../../components/text.dart';
 
 class Setting extends StatefulWidget {
@@ -12,7 +15,30 @@ class Setting extends StatefulWidget {
 }
 
 class _SettingState extends State<Setting> {
-  bool status = false;
+  bool status = false, loadData = true;
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  getData() async{
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    User? user = _auth.currentUser;
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      setState(() {
+        status = value.data()!['notifications'];
+      });
+    });
+    setState(() {
+      loadData = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +48,7 @@ class _SettingState extends State<Setting> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Header2(text: "Settings"),
-            Padding(
+            !loadData ? Padding(
               padding: EdgeInsets.only(left: getProportionateScreenWidth(20), right: getProportionateScreenWidth(20), top: getProportionateScreenHeight(20)),
               child: Column(
                 children: [
@@ -30,11 +56,15 @@ class _SettingState extends State<Setting> {
                     scale: 1.08,
                     child: ListTileSwitch(
                       value: status,
-                      // leading: Icon(Icons.notifications),
-                      onChanged: (value) {
-                        setState(() {
-                          status = value;
-                        });
+                      leading: Icon(Icons.notifications),
+                      onChanged: (value) async{
+                        if(mounted){
+                          setState(() {
+                            status = value;
+                          });
+                          var userDatabase = DatabaseUserService();
+                          await userDatabase.updateNotificationSetting(status);
+                        }
                       },
                       switchActiveColor: Colors.blueAccent,
                       switchType: SwitchType.material,
@@ -49,7 +79,7 @@ class _SettingState extends State<Setting> {
                   ),
                 ],
               ),
-            ),
+            ) : Center(child: CircularProgressIndicator(),),
           ],
         ),
       ),

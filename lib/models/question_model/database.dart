@@ -5,25 +5,15 @@ import 'package:uuid/uuid.dart';
 class DatabaseQuestionService {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-  Future<String> insertQuestionData(String question, String asked) async {
+  Future<String> insertQuestionData(String question, String asked, bool mainQ, String mainAid) async {
     String qid = Uuid().v4();
     QuestionModel questionModel =
-        QuestionModel(qid: qid, question: question, mainQ: true, countAns: '0', aid: [], asked: asked);
+        QuestionModel(qid: qid, question: question, mainQ: mainQ, countAns: '0', aid: [], asked: asked, mainAid: mainAid);
     await firebaseFirestore
         .collection("questions")
         .doc(qid)
         .set(questionModel.toMap());
     return qid;
-  }
-
-  insertFollowUpQuestionData(String qid, String question, String asked) async {
-    String fQid = Uuid().v4();
-    QuestionModel questionModel =
-        QuestionModel(qid: fQid, question: question, mainQ: false, aid: [], asked: asked);
-    await firebaseFirestore
-        .collection("questions")
-        .doc(fQid)
-        .set(questionModel.toMap());
   }
 
   updateQuestionData(String qid, String aid) async {

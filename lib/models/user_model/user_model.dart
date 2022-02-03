@@ -9,10 +9,12 @@ class UserModel {
   final String? countQid;
   final List<String>? aid;
   final String? countAid;
-  final List<String>? sentQid;
+  var sentQid;
   final String? countSentQid;
-  final List<String>? recQid;
+  var recQid;
   final String? countRecQid;
+  final bool? notifications;
+  var report;
 
   UserModel({
     this.email,
@@ -29,6 +31,8 @@ class UserModel {
     this.countRecQid,
     this.sentQid,
     this.countSentQid,
+    this.notifications,
+    this.report,
   });
 
 // data from server
@@ -45,9 +49,11 @@ class UserModel {
       countAid: map['countAid'],
       aid: map['aid'].cast<String>(),
       countRecQid: map['countRecQid'],
-      recQid: map['recQid'].cast<String>(),
+      recQid: map['recQid'],
       countSentQid: map['countSentQid'],
-      sentQid: map['sentQid'].cast<String>(),
+      sentQid: map['sentQid'],
+      notifications: map['notifications'],
+      report: map['report'],
     );
   }
 
@@ -68,6 +74,8 @@ class UserModel {
       'countRecQid': countRecQid,
       'sentQid': sentQid,
       'countSentQid': countSentQid,
+      'notifications': notifications,
+      'report': report,
     };
   }
 }

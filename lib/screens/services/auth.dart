@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../models/user_model/user_model.dart';
@@ -36,8 +38,10 @@ class AuthService {
       countSentQid: '0',
       qid: [],
       aid: [],
-      recQid: [],
-      sentQid: [],
+      recQid: {} as LinkedHashMap<dynamic, dynamic>,
+      sentQid: {} as LinkedHashMap<dynamic, dynamic>,
+      notifications: false,
+      report: {} as LinkedHashMap<dynamic, dynamic>,
     );
     await firebaseFirestore
         .collection("users")

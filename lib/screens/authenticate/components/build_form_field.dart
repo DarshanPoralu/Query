@@ -10,7 +10,8 @@ class BuildFormField extends StatelessWidget {
       required this.validate,
       required this.label,
       required this.hint,
-      required this.image});
+      required this.image,
+      this.controller});
 
   final bool obscure;
   final void Function(String) onChange;
@@ -19,10 +20,12 @@ class BuildFormField extends StatelessWidget {
   final String label;
   final String hint;
   final String image;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       obscureText: obscure,
       onSaved: onSave,
       onChanged: onChange,

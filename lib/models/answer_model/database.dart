@@ -5,10 +5,10 @@ import 'answer_model.dart';
 class DatabaseAnswerService {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-  Future<String> insertAnswerData(String answer, String qid, String answered) async {
+  Future<String> insertAnswerData(String answer, String qid, String answered, bool mainA) async {
     String aid = Uuid().v4();
     AnswerModel questionModel = AnswerModel(
-        answer: answer, aid: aid, countSub: '0', mainA: true, qid: qid, subQid: [], answered: answered);
+        answer: answer, aid: aid, countSub: '0', mainA: mainA, qid: qid, subQid: [], answered: answered);
     await firebaseFirestore
         .collection("answers")
         .doc(aid)
@@ -16,17 +16,7 @@ class DatabaseAnswerService {
     return aid;
   }
 
-  insertSubAnswerData(String answer, String qid, String answered) async {
-    String aid = Uuid().v4();
-    AnswerModel questionModel =
-        AnswerModel(answer: answer, aid: aid, mainA: false, qid: qid);
-    await firebaseFirestore
-        .collection("answers")
-        .doc(aid)
-        .set(questionModel.toMap());
-  }
-
-  updateAnswerData(String aid, String subQid, String answered) async {
+  updateAnswerData(String aid, String subQid) async {
     List<dynamic> list = [];
     var count;
     await firebaseFirestore
@@ -45,6 +35,6 @@ class DatabaseAnswerService {
     await firebaseFirestore
         .collection("answers")
         .doc(aid)
-        .update({'subQid': list, 'countSub': count.toString(), 'answered': answered});
+        .update({'subQid': list, 'countSub': count.toString()});
   }
 }

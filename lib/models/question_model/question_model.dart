@@ -4,6 +4,7 @@ class QuestionModel {
   final String? countAns;
   final List<String>? aid;
   final bool? mainQ;
+  final String? mainAid;
   final String? asked;
 
   QuestionModel(
@@ -11,16 +12,17 @@ class QuestionModel {
       this.aid,
       this.countAns,
       this.question,
-      this.mainQ, this.asked});
+      this.mainQ, this.asked, this.mainAid});
 
   factory QuestionModel.fromMap(map) {
     return QuestionModel(
       qid: map['qid'],
       question: map['question'],
       countAns: map['countAns'],
-      aid: map['aid'],
+      aid: map['aid'].cast<String>(),
       mainQ: map['mainQ'],
-      asked: map['asked']
+      asked: map['asked'],
+      mainAid: map['mainAid'],
     );
   }
 
@@ -32,6 +34,7 @@ class QuestionModel {
       'aid': aid,
       'mainQ': mainQ,
       'asked': asked,
+      'mainAid': mainAid,
     };
   }
 }

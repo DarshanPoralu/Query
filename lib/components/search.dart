@@ -4,7 +4,6 @@ import 'package:question_and_answer/components/QuestionRequest.dart';
 import 'package:question_and_answer/components/constants.dart';
 import 'package:question_and_answer/components/question_message.dart';
 import 'package:question_and_answer/components/size_config.dart';
-import 'package:question_and_answer/components/text.dart';
 import 'icon_widget.dart';
 
 class Search extends StatefulWidget {
@@ -48,7 +47,7 @@ class _SearchState extends State<Search> {
 
     if (_searchController.text != "") {
       for (var question in _allResults) {
-        var title = question.toLowerCase();
+        var title = question[1].toLowerCase();
 
         if (title.contains(_searchController.text.toLowerCase())) {
           showResults.add(question);
@@ -65,8 +64,9 @@ class _SearchState extends State<Search> {
     var querySnapshot = await collection.get();
     for (var queryDocumentSnapshot in querySnapshot.docs) {
       Map<String, dynamic> data = queryDocumentSnapshot.data();
-      var question = data['question'];
-      _allResults.add(question);
+      if(data['mainQ']){
+        _allResults.add([data['qid'] ,data['question']]);
+      }
     }
     searchResultsList();
     return "complete";
@@ -107,8 +107,9 @@ class _SearchState extends State<Search> {
                 child: ListView.builder(
               itemCount: _resultsList.length,
               itemBuilder: (BuildContext context, int index) =>
-                  QuestionMessage(question: _resultsList[index]),
-            )),
+                  QuestionMessage(question: _resultsList[index][1], qid: _resultsList[index][0], mainQ: true),
+            ),
+            ),
           ],
         ),
       ),

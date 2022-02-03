@@ -6,7 +6,9 @@ import 'package:question_and_answer/screens/authenticate/register/register.dart'
 import 'package:question_and_answer/screens/authenticate/welcome/welcome.dart';
 import 'package:question_and_answer/screens/home/add/add.dart';
 import 'package:question_and_answer/screens/home/home/home.dart';
+import 'package:question_and_answer/screens/home/notification/notification.dart';
 import 'package:question_and_answer/screens/home/profile/help/helpCenter.dart';
+import 'package:question_and_answer/screens/home/profile/my_account/edit_profile.dart';
 import 'package:question_and_answer/screens/home/profile/my_account/my_account.dart';
 import 'package:question_and_answer/screens/home/profile/profile.dart';
 import 'package:question_and_answer/screens/home/profile/settings/settings.dart';
@@ -45,6 +47,8 @@ class MyApp extends StatelessWidget {
           Setting.id: (context) => Setting(),
           Start.id: (context) => Start(),
           Search.id: (context) => Search(),
+          EditProfile.id: (context) => EditProfile(),
+          NotificationAlert.id: (context) => NotificationAlert(),
         },
       ),
     );

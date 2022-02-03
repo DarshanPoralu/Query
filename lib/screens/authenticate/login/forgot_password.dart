@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:question_and_answer/components/ButtonComponent.dart';
 import 'package:question_and_answer/components/constants.dart';
@@ -85,7 +86,7 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
                 }
                 return null;
               },
-              onSave: (newValue) => email = newValue,
+              onSave: (newValue) => email = newValue!,
               validate: (value) {
                 if (value!.isEmpty && !errors.contains(kEmailNullError)) {
                   setState(() {
@@ -107,9 +108,17 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
           SizedBox(height: SizeConfig.screenHeight * 0.1),
           ButtonComponent(
             text: "Continue",
-            press: () {
+            press: () async{
               if (_formKey.currentState!.validate()) {
-                // Do what you want to do
+                _formKey.currentState!.save();
+                FirebaseAuth _auth = FirebaseAuth.instance;
+                await _auth.sendPasswordResetEmail(email: email!);
+                ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: kPrimaryColor,
+                        content: Text('Link Sent')));
+                Navigator.pop(context);
               }
             },
             buttonWidth: 350,

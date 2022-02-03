@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:question_and_answer/components/circle_image.dart';
 import 'package:question_and_answer/components/icon_widget.dart';
 import 'package:question_and_answer/components/search.dart';
 import 'package:question_and_answer/components/size_config.dart';
+import 'circle_image.dart';
 
 class Header1 extends StatelessWidget {
-  Header1({required this.text, required this.isSearch});
+
+  Header1({required this.text, required this.isSearch, required this.image});
+
   final bool isSearch;
   final String text;
+  final CircleImage image;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,7 +33,7 @@ class Header1 extends StatelessWidget {
                     fit: StackFit.expand,
                     clipBehavior: Clip.none,
                     children: [
-                      CircleImage(),
+                      image,
                     ],
                   ),
                 ),
